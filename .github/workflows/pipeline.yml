@@ -1,4 +1,4 @@
-name: Build and Push python Image to AWS ECR
+name: Build and Push python Image to AWS ECR to be used in lambda function
 
 on:
   push:
@@ -22,7 +22,6 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-
     - name: Build, Tag, and Push the Image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
