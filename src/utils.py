@@ -39,7 +39,8 @@ def save_bucket(df, configs, step):
     df.to_csv(csv_buffer)
     s3_resource = boto3.resource('s3')
     bucket = s3_resource.Bucket('name')
-    file = f"{configs["bucket"][step]}cadastro_{step}_{str(uuid.uuid4())}.csv"
+    key = configs["bucket"][step]
+    file = f"{key}cadastro_{step}_{str(uuid.uuid4())}.csv"
     s3_resource.Object(bucket, file).put(Body=csv_buffer.getvalue())
 
 
