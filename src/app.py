@@ -1,8 +1,8 @@
-
 from datetime import datetime
 import requests
 import pandas as pd
 import logging
+import awswrangler as wr
 from config import configs
 import utils
 
@@ -31,7 +31,7 @@ def ingestion():
     utils.save_bucket(df, configs, step="raw")
 
 
-def preparation(file):
+def preparation(file, step):
     """
     Função de preparação dos dados: renomeia, tipagem, normaliza strings
     Arguments: file -> nome do arquivo raw
@@ -39,7 +39,8 @@ def preparation(file):
     """
 
     logging.info("Iniciando a preparação")
-    df = pd.read_csv(file, sep=";")
+    path = configs["bucket"][step]
+    df = wr.s3.read_csv(f'{path}{file}', sep=';')
     san = utils.Saneamento(df, config_file)
     san.select_rename()
     logging.info("Dados renomeados e selecionados")
@@ -56,5 +57,5 @@ def handler(event, context):
     if step == "ingestion": ingestion()
     else: 
         file_name = event.get('file_name')
-        preparation(file_name)
+        preparation(file_name, step)
     
