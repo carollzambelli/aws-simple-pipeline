@@ -5,8 +5,8 @@ configs = {
     "URL": "https://randomuser.me/api/?results=5",
     "bucket":{
         "raw": "s3://de04-demo/cadastro/raw/",
-        "work": "s3://de04-demo/cadastro/logs/",
-        "logs": "s3://de04-demo/cadastro/work/"    
+        "work": "s3://de04-demo/cadastro/work/",
+        "logs": "s3://de04-demo/cadastro/logs/"    
     } ,
     "metadados":{
         "nome_original": [
