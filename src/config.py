@@ -4,8 +4,9 @@ import os
 configs = {
     "URL": "https://randomuser.me/api/?results=5",
     "bucket":{
-        "raw":"s3://de04-demo/cadastro/raw/",
-        "work":"s3://de04-demo/cadastro/work/"
+        "name": "de04-demo",
+        "raw":"cadastro/raw/",
+        "work":"cadastro/work/"
     } ,
     "metadados":{
         "nome_original": [

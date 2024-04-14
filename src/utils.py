@@ -34,11 +34,12 @@ class Saneamento:
 
 
 def save_bucket(df, configs, step):
-    bucket = configs["bucket"][step]
+    bucket = configs["bucket"]["name"]
     csv_buffer = StringIO()
     df.to_csv(csv_buffer)
     s3_resource = boto3.resource('s3')
-    file = f"cadastro_{step}_{str(uuid.uuid4())}.csv"
+    bucket = s3_resource.Bucket('name')
+    file = f"{configs["bucket"][step]}cadastro_{step}_{str(uuid.uuid4())}.csv"
     s3_resource.Object(bucket, file).put(Body=csv_buffer.getvalue())
 
 
