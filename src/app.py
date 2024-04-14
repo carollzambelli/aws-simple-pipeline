@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO)
 def ingestion():
     """
     Função de ingestão dos dados
-    Outputs: Salva base raw em local específico e retorna o nome do arquivo
+    Outputs: Salva base em bucket S3 especifico
     """
     
     logging.info("Iniciando a ingestão")
@@ -35,7 +35,7 @@ def preparation(file):
     """
     Função de preparação dos dados: renomeia, tipagem, normaliza strings
     Arguments: file -> nome do arquivo raw
-    Outputs: Salva base limpa em local específico
+    Outputs: Salva base em bucket S3 especifico
     """
 
     logging.info("Iniciando a preparação")
