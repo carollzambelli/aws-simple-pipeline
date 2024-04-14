@@ -35,7 +35,8 @@ def save_bucket(df, configs, step):
     file = f"cadastro_{step}_{str(uuid.uuid4())}.csv"
     wr.s3.to_csv(
         df=df,
-        path=f"{bucket}{file}"
+        path=f"{bucket}{file}",
+        sep=";"
     )
 
 def error_handler(exception_error, stage):

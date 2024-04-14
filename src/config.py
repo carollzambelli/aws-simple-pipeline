@@ -36,6 +36,7 @@ configs = {
              "titulo": "string",
              "nome": "string",
              "sobrenome": "string",
+             "cidade": "string",
              "estado": "string",
              "pais": "string",
              "email": "string",
