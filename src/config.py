@@ -6,7 +6,8 @@ configs = {
     "bucket":{
         "name": "de04-demo",
         "raw":"cadastro/raw/",
-        "work":"cadastro/work/"
+        "work":"cadastro/logs/",
+        "logs": "cadastro/work/"    
     } ,
     "metadados":{
         "nome_original": [

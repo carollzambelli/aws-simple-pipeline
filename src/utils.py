@@ -5,6 +5,7 @@ from io import StringIO
 import boto3
 import uuid
 from config import configs
+import awswrangler as wr
 
 class Saneamento:
     
@@ -33,7 +34,7 @@ class Saneamento:
         return self.data
 
 
-def save_bucket(df, configs, step):
+"""def save_bucket(df, configs, step):
     bucket = configs["bucket"]["name"]
     csv_buffer = StringIO()
     df.to_csv(csv_buffer)
@@ -41,8 +42,15 @@ def save_bucket(df, configs, step):
     bucket = s3_resource.Bucket('name')
     key = configs["bucket"][step]
     file = f"{key}cadastro_{step}_{str(uuid.uuid4())}.csv"
-    s3_resource.Object(bucket, file).put(Body=csv_buffer.getvalue())
+    s3_resource.Object(bucket, file).put(Body=csv_buffer.getvalue())"""
 
+
+def save_bucket(df, configs, step):
+    file = f"cadastro_{step}_{str(uuid.uuid4())}.csv"
+    wr.s3.to_csv(
+        df=df,
+        path=f"s3://de04-demo/cadastro/raw/{file}",
+    )
 
 def error_handler(exception_error, stage):
     log = [stage, type(exception_error).__name__, exception_error,datetime.now()]

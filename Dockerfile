@@ -4,6 +4,6 @@ COPY ./src/. ${LAMBDA_TASK_ROOT}
 COPY requirements.txt ${LAMBDA_TASK_ROOT}
 
 RUN pip install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
-RUN pip install boto3
+RUN pip install awswrangler
 
 CMD [ "app.handler" ]
