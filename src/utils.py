@@ -10,8 +10,7 @@ class Saneamento:
         self.data = data
         self.colunas = configs["metadados"]['nome_original']
         self.colunas_new = configs["metadados"]['nome']
-        self.tipos = configs["metadados"]['tipos']
-        self.path_work = configs["bucket_work"]        
+        self.tipos = configs["metadados"]['tipos']  
 
     def select_rename(self):
         self.data = self.data.loc[:, self.colunas] 
