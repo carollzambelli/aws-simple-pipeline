@@ -37,7 +37,7 @@ def save_bucket(df, configs, step):
         df=df,
         path=f"{bucket}{file}",
         sep=";",
-        header=False
+        header=0
     )
 
 def error_handler(exception_error, stage):
