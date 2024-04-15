@@ -40,7 +40,7 @@ def preparation(file, step):
 
     logging.info("Iniciando a preparação")
     path = configs["bucket"]["raw"]
-    df = wr.s3.read_csv(f'{path}{file}', sep=';', index_col=0)
+    df = wr.s3.read_csv(f'{path}{file}', sep=';')
     san = utils.Saneamento(df, config_file)
     san.select_rename()
     logging.info("Dados renomeados e selecionados")
