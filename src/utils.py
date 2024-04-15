@@ -37,7 +37,6 @@ def save_bucket(df, configs, step):
         df=df,
         path=f"{bucket}{file}",
         sep=";",
-        header=0,
         index=False
     )
 
