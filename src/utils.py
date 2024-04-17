@@ -36,7 +36,7 @@ def save_bucket(df, configs, step):
     wr.s3.to_csv(
         df=df,
         path=f"{bucket}{file}",
-        header=False
+        header=False,
         sep=";",
         index=False,
     )
