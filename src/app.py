@@ -45,6 +45,7 @@ def preparation(file, step):
     san.select_rename()
     logging.info("Dados renomeados e selecionados")
     df_work = san.tipagem()
+    df_work['load_date'] = datetime.now().strftime("%H:%M:%S")
     logging.info("Dados tipados")
     utils.save_bucket(df_work, configs, step="work")
     logging.info("Dados salvos")

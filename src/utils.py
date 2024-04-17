@@ -36,8 +36,9 @@ def save_bucket(df, configs, step):
     wr.s3.to_csv(
         df=df,
         path=f"{bucket}{file}",
+        header=False
         sep=";",
-        index=False
+        index=False,
     )
 
 def error_handler(exception_error, stage):
