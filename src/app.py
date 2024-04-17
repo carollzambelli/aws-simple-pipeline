@@ -28,7 +28,7 @@ def ingestion():
     df = pd.json_normalize(data)
     df['load_date'] = datetime.now().strftime("%H:%M:%S")
 
-    utils.save_bucket(df, configs, step="raw", True)
+    utils.save_bucket(df, configs, step="raw", hdr=True)
 
 
 def preparation(file, step):
@@ -47,7 +47,7 @@ def preparation(file, step):
     df_work = san.tipagem()
     df_work['load_date'] = datetime.now().strftime("%H:%M:%S")
     logging.info("Dados tipados")
-    utils.save_bucket(df_work, configs, step="work", False)
+    utils.save_bucket(df_work, configs, step="work", hdr=False)
     logging.info("Dados salvos")
 
 
