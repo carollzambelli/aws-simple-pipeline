@@ -30,13 +30,13 @@ class Saneamento:
         return self.data
 
 
-def save_bucket(df, configs, step):
+def save_bucket(df, configs, step, header):
     bucket = configs["bucket"][step]
     file = f"cadastro_{step}_{str(uuid.uuid4())}.csv"
     wr.s3.to_csv(
         df=df,
         path=f"{bucket}{file}",
-        header=False,
+        header=header,
         sep=";",
         index=False,
     )
