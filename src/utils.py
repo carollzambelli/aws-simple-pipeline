@@ -32,6 +32,7 @@ class Saneamento:
     
 def save_bucket(df, configs, step, hdr):
     bucket = configs["bucket"][step]
+    df['load_date'] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     file = f"cadastro_{step}_{str(uuid.uuid4())}.csv"
     wr.s3.to_csv(
         df=df,
@@ -40,6 +41,10 @@ def save_bucket(df, configs, step, hdr):
         sep=";",
         index=False,
     )
+
+def read_athena(query, db_table):
+    df = wr.athena.read_sql_query(query, database='its4u_prod_dw')
+    return df
 
 def error_handler(exception_error, stage, path):
     

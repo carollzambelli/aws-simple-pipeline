@@ -26,7 +26,6 @@ def ingestion():
     df = pd.json_normalize(data)
     cols = [s.replace('.', '_') for s in df.columns]
     df.columns = cols
-
     utils.save_bucket(df, configs, step="raw", hdr=True)
 
 
@@ -38,7 +37,7 @@ def preparation():
     """
 
     logging.info("Iniciando o saneamento")
-    df = utils.read_mysql("mysql", "cadastro_raw")
+    df = utils.read_athena(configs["prep_query"], configs["database"])
     san = utils.Saneamento(df, config_file)
     san.select_rename()
     logging.info("Seleção de dados")

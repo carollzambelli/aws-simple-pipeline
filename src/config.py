@@ -8,6 +8,8 @@ configs = {
         "work": "s3://dataops-treinamento/cadastro/work/",
         "logs": "s3://dataops-treinamento/cadastro/logs/"    
     },
+    "database":"cadastro",
+    "prep_query": "select * from database.cadastro_raw", 
     "metadados":{
         "nome_original": [
             "gender",
