@@ -26,7 +26,7 @@ def ingestion():
     df = pd.json_normalize(data)
     cols = [s.replace('.', '_') for s in df.columns]
     df.columns = cols
-    utils.save_bucket(df, configs, step="raw", hdr=True)
+    utils.save_bucket(df, configs, step="raw")
 
 
 def preparation():
@@ -43,7 +43,7 @@ def preparation():
     logging.info("Seleção de dados")
     df = san.tipagem()
     logging.info("Tipagem dos dados")
-    utils.save_bucket(df, configs, step="work", hdr=False)
+    utils.save_bucket(df, configs, step="work")
     logging.info("Dados salvos")
 
 
