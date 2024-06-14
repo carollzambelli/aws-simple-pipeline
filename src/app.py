@@ -52,9 +52,7 @@ def handler(event, context):
     step = event.get('step')
 
     if step == "ingestion": ingestion()
-    else: 
-        file_name = event.get('file_name')
-        preparation(file_name, step)
+    else: preparation()
     
 '''
 Test Functions
@@ -66,7 +64,6 @@ ingestion
 
 preparation
 {
-  "step": "ingestion",
-  "file_name": "file_path"
+  "step": "preparation"
 }
 '''
