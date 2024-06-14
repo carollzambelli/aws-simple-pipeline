@@ -1,24 +1,24 @@
 import os
-
+from datetime import datetime
 
 configs = {
     "URL": "https://randomuser.me/api/?results=5",
     "bucket":{
-        "raw": "s3://de04-demo/cadastro/raw/",
-        "work": "s3://de04-demo/cadastro/work/",
-        "logs": "s3://de04-demo/cadastro/logs/"    
-    } ,
+        "raw": "s3://dataops-treinamento/cadastro/raw/",
+        "work": "s3://dataops-treinamento/cadastro/work/",
+        "logs": "s3://dataops-treinamento/cadastro/logs/"    
+    },
     "metadados":{
         "nome_original": [
             "gender",
-            "name.title",
-            "name.first",
-            "name.last",
-            "location.city",
-            "location.state",
-            "location.country",
+            "name_title",
+            "name_first",
+            "name_last",
+            "location_city",
+            "location_state",
+            "location_country",
             "email",
-            "dob.date"
+            "dob_date"
             ],
          "nome": [
             "sexo",

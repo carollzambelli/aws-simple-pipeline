@@ -1,8 +1,9 @@
+import os
 import pandas as pd
-from datetime import datetime  
+from datetime import datetime
+import awswrangler as wr   
 import uuid
-from config import configs
-import awswrangler as wr
+
 
 class Saneamento:
     
@@ -28,8 +29,7 @@ class Saneamento:
             elif tipo == "date":
                 self.data[col] = pd.to_datetime(self.data[col]).dt.strftime('%Y-%m-%d')
         return self.data
-
-
+    
 def save_bucket(df, configs, step, hdr):
     bucket = configs["bucket"][step]
     file = f"cadastro_{step}_{str(uuid.uuid4())}.csv"
@@ -41,7 +41,13 @@ def save_bucket(df, configs, step, hdr):
         index=False,
     )
 
-def error_handler(exception_error, stage):
+def error_handler(exception_error, stage, path):
+    
     log = [stage, type(exception_error).__name__, exception_error,datetime.now()]
     logdf = pd.DataFrame(log).T
-    save_bucket(logdf, configs, step="logs")
+    
+    if not os.path.exists(path):
+        logdf.columns = ['stage', 'type', 'error', 'datetime']
+        logdf.to_csv(path, index=False,sep = ";")
+    else:
+        logdf.to_csv(path, index=False, mode='a', header=False, sep = ";")

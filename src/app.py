@@ -1,53 +1,50 @@
-from datetime import datetime
-import requests
 import pandas as pd
-import logging
-import awswrangler as wr
+import requests
+import utils as utils
+from dotenv import load_dotenv
 from config import configs
-import utils
+import logging
 
+load_dotenv()
 config_file = configs
-
 logging.basicConfig(level=logging.INFO)
+
 
 def ingestion():
     """
     Função de ingestão dos dados
-    Outputs: Salva base em bucket S3 especifico
+    Outputs: Salva base raw em local específico e retorna o nome do arquivo
     """
-    
-    logging.info("Iniciando a ingestão")
-    api_url = configs['URL']
 
+    logging.info("Iniciando a ingestão")
+    api_url = configs["URL"]
     try:
         response = requests.get(api_url, timeout=10).json()
         data = response['results']
     except Exception as exception_error:
-         utils.error_handler(exception_error, 'read_api')
-
+        utils.error_handler(exception_error, 'read_api', configs['path']['logs'])
     df = pd.json_normalize(data)
-    df['load_date'] = datetime.now().strftime("%H:%M:%S")
+    cols = [s.replace('.', '_') for s in df.columns]
+    df.columns = cols
 
     utils.save_bucket(df, configs, step="raw", hdr=True)
 
 
-def preparation(file, step):
+def preparation():
     """
     Função de preparação dos dados: renomeia, tipagem, normaliza strings
     Arguments: file -> nome do arquivo raw
-    Outputs: Salva base em bucket S3 especifico
+    Outputs: Salva base limpa em local específico
     """
 
-    logging.info("Iniciando a preparação")
-    path = configs["bucket"]["raw"]
-    df = wr.s3.read_csv(f'{path}{file}', sep=';')
+    logging.info("Iniciando o saneamento")
+    df = utils.read_mysql("mysql", "cadastro_raw")
     san = utils.Saneamento(df, config_file)
     san.select_rename()
-    logging.info("Dados renomeados e selecionados")
-    df_work = san.tipagem()
-    df_work['load_date'] = datetime.now().strftime("%H:%M:%S")
-    logging.info("Dados tipados")
-    utils.save_bucket(df_work, configs, step="work", hdr=False)
+    logging.info("Seleção de dados")
+    df = san.tipagem()
+    logging.info("Tipagem dos dados")
+    utils.save_bucket(df, configs, step="work", hdr=False)
     logging.info("Dados salvos")
 
 
@@ -60,3 +57,17 @@ def handler(event, context):
         file_name = event.get('file_name')
         preparation(file_name, step)
     
+'''
+Test Functions
+----------------
+ingestion
+{
+  "step": "ingestion"
+}
+
+preparation
+{
+  "step": "ingestion",
+  "file_name": "file_path"
+}
+'''
