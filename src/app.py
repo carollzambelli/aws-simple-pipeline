@@ -47,21 +47,6 @@ def preparation():
 
 
 def handler(event, context):
-
-    step = event.get('step')
-    if step == "ingestion": ingestion()
-    else: preparation()
+    ingestion()
+    preparation()
     
-'''
-Test Functions
-----------------
-ingestion
-{
-  "step": "ingestion"
-}
-
-preparation
-{
-  "step": "preparation"
-}
-'''
