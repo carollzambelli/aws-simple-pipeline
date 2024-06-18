@@ -1,11 +1,10 @@
 import pandas as pd
 import requests
 import utils as utils
-from dotenv import load_dotenv
-from config import configs
 import logging
+from config import configs
 
-load_dotenv()
+
 config_file = configs
 logging.basicConfig(level=logging.INFO)
 
@@ -22,7 +21,7 @@ def ingestion():
         response = requests.get(api_url, timeout=10).json()
         data = response['results']
     except Exception as exception_error:
-        utils.error_handler(exception_error, 'read_api', configs['path']['logs'])
+        utils.error_handler(exception_error, 'read_api', config_file)
     df = pd.json_normalize(data)
     cols = [s.replace('.', '_') for s in df.columns]
     df.columns = cols
@@ -50,7 +49,6 @@ def preparation():
 def handler(event, context):
 
     step = event.get('step')
-
     if step == "ingestion": ingestion()
     else: preparation()
     

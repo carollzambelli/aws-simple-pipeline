@@ -42,17 +42,14 @@ def save_bucket(df, configs, step):
         index=False,
     )
 
-def read_athena(query, db_table):
+def read_athena(query):
     df = wr.athena.read_sql_query(query, database='database')
     return df
 
-def error_handler(exception_error, stage, path):
+def error_handler(exception_error, stage, configs):
     
     log = [stage, type(exception_error).__name__, exception_error,datetime.now()]
     logdf = pd.DataFrame(log).T
-    
-    if not os.path.exists(path):
-        logdf.columns = ['stage', 'type', 'error', 'datetime']
-        logdf.to_csv(path, index=False,sep = ";")
-    else:
-        logdf.to_csv(path, index=False, mode='a', header=False, sep = ";")
+
+    save_bucket(logdf, configs, step="logs")
+
