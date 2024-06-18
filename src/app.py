@@ -36,7 +36,7 @@ def preparation():
     """
 
     logging.info("Iniciando o saneamento")
-    df = utils.read_athena(configs["prep_query"], configs["database"])
+    df = utils.read_athena(configs["prep_query"])
     san = utils.Saneamento(df, config_file)
     san.select_rename()
     logging.info("Seleção de dados")
