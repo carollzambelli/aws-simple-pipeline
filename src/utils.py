@@ -39,7 +39,7 @@ def save_bucket(df, configs, step):
         path=f"{bucket}{file}",
         header=False,
         sep=";",
-        index=False,
+        index=False
     )
 
 def read_athena(query):
@@ -47,9 +47,7 @@ def read_athena(query):
     return df
 
 def error_handler(exception_error, stage, configs):
-    
     log = [stage, type(exception_error).__name__, exception_error,datetime.now()]
     logdf = pd.DataFrame(log).T
-
     save_bucket(logdf, configs, step="logs")
 
